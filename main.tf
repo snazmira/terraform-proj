@@ -16,8 +16,8 @@ resource "random_pet" "rg_name" {
 
 #create resource group
 resource "azurerm_resource_group" "rg" {
-    name = "rg-remotestate"
-    location = var.resource_group_location
+  location = var.resource_group_location
+  name     = random_pet.rg_name.id
 }
 
 # Create virtual network
