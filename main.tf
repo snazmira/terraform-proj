@@ -8,6 +8,12 @@ terraform {
   }
 }
 
+
+resource "random_pet" "rg_name" {
+  prefix = var.resource_group_name_prefix
+}
+
+
 #create resource group
 resource "azurerm_resource_group" "rg" {
     name = "rg-remotestate"
@@ -98,7 +104,7 @@ resource "azurerm_storage_account" "my_storage_account" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
-  name                  = "myVM"
+  name                  = "myVM002"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
@@ -125,7 +131,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
     public_key = file("${path.module}/ssh-keys/terraform-azure.pem.pub")
   }
 
-boot_diagnostics {
+  boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
   }
 }
