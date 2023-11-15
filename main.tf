@@ -105,6 +105,18 @@ resource "azurerm_storage_account" "my_storage_account" {
   account_replication_type = "LRS"
 }
 
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+
+resource "azurerm_ssh_public_key" "generated_key" {
+  name                = "myVM002_key"
+  location                 = azurerm_resource_group.rg.location
+  resource_group_name      = azurerm_resource_group.rg.name
+  public_key = tls_private_key.ssh_key.public_key_openssh
+}
 
 resource "azurerm_key_vault" "kv" {
   name = "myVM002-kv"
@@ -130,7 +142,7 @@ resource "azurerm_key_vault" "kv" {
 resource "azurerm_key_vault_secret" "kv-vm-secret" {
   key_vault_id = azurerm_key_vault.kv.id
   name = azurerm_key_vault.kv.name
-  value = azurerm_key_vault.kv.vault_uri
+  value = tls_private_key.ssh_key.public_key_openssh
   
 }
 
