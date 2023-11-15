@@ -130,7 +130,7 @@ resource "azurerm_key_vault" "kv" {
 resource "azurerm_key_vault_secret" "kv-vm-secret" {
   key_vault_id = azurerm_key_vault.kv.id
   name = azurerm_key_vault.kv.name
-  value = "myVM002"
+  value = azurerm_key_vault.kv.vault_uri
   
 }
 
