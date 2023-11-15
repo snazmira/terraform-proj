@@ -20,7 +20,7 @@ resource "random_pet" "rg_name" {
 #create resource group
 resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
-  name     = random_pet.rg_name.id
+  name     = "rg-valid-cobra"
 }
 
 # Create virtual network
