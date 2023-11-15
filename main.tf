@@ -5,6 +5,9 @@ terraform {
     storage_account_name = "myterrastatestorage001"
     container_name = "terraformdemo"
     key = "dev.terraform.tfstate"
+    use_msi              = true
+    subscription_id      = "ba798724-e24f-4352-89ba-15adbe6889a5"
+    tenant_id            = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
   }
 }
 
@@ -102,6 +105,35 @@ resource "azurerm_storage_account" "my_storage_account" {
   account_replication_type = "LRS"
 }
 
+
+resource "azurerm_key_vault" "kv" {
+  name = "myVM002-kv"
+  location                 = azurerm_resource_group.rg.location
+  resource_group_name      = azurerm_resource_group.rg.name
+  tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
+  sku_name = "standard"
+
+  access_policy {
+    tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
+    object_id = "985cb20f-e6b6-499c-91c6-f63215664c89"
+    secret_permissions = [
+      "Set",
+      "Get",
+      "Delete",
+      "Purge",
+      "Recover",
+      "List"
+    ]
+  }
+}
+
+resource "azurerm_key_vault_secret" "kv-vm-secret" {
+  key_vault_id = azurerm_key_vault.kv.id
+  name = azurerm_key_vault.kv.name
+  value = data.azurerm_key_vault_key.myVM002.public_key_openssh
+  
+}
+
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   name                  = "myVM002"
@@ -128,7 +160,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 
   admin_ssh_key {
     username   = var.username
-    public_key = file("${path.module}/ssh-keys/terraform-azure.pem.pub")
+    public_key = azurerm_key_vault_secret.kv-vm-secret.value
   }
 
   boot_diagnostics {
