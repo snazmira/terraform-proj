@@ -112,14 +112,14 @@ resource "tls_private_key" "ssh_key" {
 
 
 resource "azurerm_ssh_public_key" "generated_key" {
-  name                = "myVM002_key"
+  name                = "${azurerm_resource_group.rg.name}_key"
   location                 = azurerm_resource_group.rg.location
   resource_group_name      = azurerm_resource_group.rg.name
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
 resource "azurerm_key_vault" "kv" {
-  name = "myVM002-kv"
+  name = "${azurerm_resource_group.rg.name}-kv"
   location                 = azurerm_resource_group.rg.location
   resource_group_name      = azurerm_resource_group.rg.name
   tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
