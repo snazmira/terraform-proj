@@ -116,7 +116,7 @@ resource "azurerm_ssh_public_key" "generated_key" {
 }
 
 resource "azurerm_key_vault" "kv" {
-  name = "myVM002-kv"
+  name = "${random_pet.prefix.id}-kv"
   location                 = azurerm_resource_group.rg.location
   resource_group_name      = azurerm_resource_group.rg.name
   tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
