@@ -1,14 +1,11 @@
-#setup remote state
 terraform {
-  backend "azurerm" {
-    resource_group_name = "rg-terraformstate"
-    storage_account_name = "myterrastatestorage001"
-    container_name = "terraformdemo"
-    key = "dev.terraform.tfstate"
-    use_msi              = true
-    subscription_id      = "ba798724-e24f-4352-89ba-15adbe6889a5"
-    tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
+ cloud {
+  organization = "terraform-1411"
+
+  workspaces {
+   name = "terraform-proj"
   }
+ }
 }
 
 
