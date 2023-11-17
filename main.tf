@@ -142,7 +142,7 @@ resource "azurerm_key_vault" "kv" {
 resource "azurerm_key_vault_secret" "kv-vm-secret" {
   key_vault_id = azurerm_key_vault.kv.id
   name = azurerm_key_vault.kv.name
-  value = tls_private_key.ssh_key.public_key_openssh
+  value = azurerm_ssh_public_key.generated_key.public_key
   
 }
 
