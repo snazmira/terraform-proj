@@ -124,7 +124,7 @@ resource "azurerm_key_vault" "kv" {
 
   access_policy {
     tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
-    object_id = "e9121707-6456-41fb-ae2e-f3a81fb4e566"
+    object_id = "985cb20f-e6b6-499c-91c6-f63215664c89"
      key_permissions = [
     "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore",
     ]
@@ -142,7 +142,7 @@ resource "azurerm_key_vault" "kv" {
 resource "azurerm_key_vault_secret" "kv-vm-secret" {
   key_vault_id = azurerm_key_vault.kv.id
   name = azurerm_key_vault.kv.name
-  value = azurerm_ssh_public_key.generated_key.public_key
+  value = tls_private_key.ssh_key.public_key_openssh
   
 }
 
