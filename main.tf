@@ -124,15 +124,18 @@ resource "azurerm_key_vault" "kv" {
 
   access_policy {
     tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
-    object_id = "985cb20f-e6b6-499c-91c6-f63215664c89"
-    secret_permissions = [
-      "Set",
-      "Get",
-      "Delete",
-      "Purge",
-      "Recover",
-      "List"
+    object_id = "e9121707-6456-41fb-ae2e-f3a81fb4e566"
+     key_permissions = [
+    "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore",
     ]
+
+    secret_permissions = [
+    "get", "list", "delete", "recover", "backup", "restore", "set",
+    ]
+
+    certificate_permissions = [
+    "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore", "deleteissuers", "getissuers", "listissuers", "managecontacts", "manageissuers", "setissuers",
+    ] 
   }
 }
 
