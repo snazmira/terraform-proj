@@ -124,7 +124,7 @@ resource "azurerm_key_vault" "kv" {
 
   access_policy {
     tenant_id = "d84694ff-8b04-4a3c-a6c9-8789bfa51ed8"
-    object_id = "985cb20f-e6b6-499c-91c6-f63215664c89"
+    object_id = "bb9d4054-1b27-40e2-96b5-089d4e8ad44d"
      key_permissions = [
     "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore",
     ]
